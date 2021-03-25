@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apply</title>
+</head>
+<body>
+    {{ template "navbar" }}
+
+    <h1> Apply </h1>
+    <h3> Company Name: {{.Company}} </h3>
+    <form method="POST" action="/apply">
+        <input type="submit" value="apply">
+    </form>
+</body>
+</html>
