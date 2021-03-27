@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="/static/css/base.css" rel="stylesheet" />
+    <title>Home</title>
+</head>
+<body>
+    <h1> Welcome To Golang Sessions </h1>
+
+    {{ if .Username }}
+        <h2> Signed In </h2>
+        <div class="user-details">
+            Username : {{.Username}}<br />
+            Firstname : {{.Firstname}}<br />
+            Lastname : {{.Lastname}}<br />
+            Role : {{.Role}}<br />
+        </div>
+        <a href="/store/"> Visit Store </a> <br />
+        {{ if eq .Role "admin" }}
+            <a href="/dashboard/"> Dashboard </a> <br />
+        {{ end }}
+        <a href="/logout/"> Logout </a> <br />
+    {{ else }}
+        <a href="/login/"> Login </a> <br />
+        <a href="/signup/"> Sign Up </a> <br />
+    {{ end }}
+</body>
+</html>

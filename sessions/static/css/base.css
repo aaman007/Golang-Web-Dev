@@ -1,0 +1,9 @@
+.user-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: black;
+    color: whitesmoke;
+    font-size: 22px;
+}
