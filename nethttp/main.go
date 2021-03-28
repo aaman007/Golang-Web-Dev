@@ -32,13 +32,13 @@ func (h handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 		req.ContentLength,
 	}
 
-	tpl.ExecuteTemplate(res, "index.html", data)
+	tpl.ExecuteTemplate(res, "home.html", data)
 }
 
 var tpl *template.Template
 
 func init() {
-	tpl = template.Must(template.ParseFiles("index.html"))
+	tpl = template.Must(template.ParseFiles("home.html"))
 }
 
 func main() {
