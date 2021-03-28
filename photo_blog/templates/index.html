@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Photo Blog</title>
+</head>
+<body>
+    <h1> Welcome to Photo Blog </h1>
+    <h3>Images</h3>
+    {{range .}}
+        <img src="/public/images/{{.}}" alt="Image" width="300px" height="300px" />
+    {{end}}
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="photo" />
+        <input type="submit" value="Post" />
+    </form>
+</body>
+</html>
