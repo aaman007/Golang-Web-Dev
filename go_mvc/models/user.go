@@ -7,10 +7,10 @@ import (
 )
 
 type User struct {
-	Id 		string 	`json:"id"`
-	Name 	string 	`json:"name"`
-	Gender 	string 	`json:"gender"`
-	Age 	int		`json:"age"`
+	Id      string  `json:"id"`
+	Name    string  `json:"name"`
+	Gender  string  `json:"gender"`
+	Age     int     `json:"age"`
 }
 
 func StoreUsers(mp map[string]User) {
