@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{ template "css_styles" }}
+    <title>Blog Details</title>
+</head>
+<body>
+    {{ template "navbar" }}
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header"> Blog Details </div>
+            <div class="card-body">
+                <h2> {{.Title}} </h2>
+                <p> {{.Body}} </p>
+            </div>
+        </div>
+    </div>
+
+    {{ template "js_scripts" }}
+</body>
+</html>

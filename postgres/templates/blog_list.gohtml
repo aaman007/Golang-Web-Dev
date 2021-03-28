@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{ template "css_styles" }}
+    <title>Blog List</title>
+</head>
+<body>
+    {{ template "navbar" }}
+
+    <div class="container mt-4">
+        <h3> Blog List </h3>
+        <a class="btn btn-sm btn-primary" href="/blogs/new/"> Create New </a> <br />
+        {{range .}}
+            <div class="card my-4">
+                <div class="card-header"></div>
+                <div class="card-body">
+                    <h2> <a href="/blogs/details/{{.Id}}/" style="margin-right: 10px;text-decoration: none;"> {{.Title}} </a> </h2>
+                </div>
+                <div class="card-footer">
+                <a class="btn btn-sm btn-success" href="/blogs/update/{{.Id}}/">Update</a>
+                <a class="btn btn-sm btn-danger" href="/blogs/delete-confirm/{{.Id}}/">Delete</a>
+                </div>
+            </div>
+        {{end}}
+    </div>
+
+    {{ template "js_scripts" }}
+</body>
+</html>
