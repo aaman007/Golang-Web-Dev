@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strings"
 	"time"
+	"github.com/satori/go.uuid"
 )
 
 type UID string
@@ -44,7 +45,7 @@ func (uid UID) String() string {
 func getOrCreateSessionCookie(w http.ResponseWriter, req *http.Request) *http.Cookie {
 	cookie, err := req.Cookie("session")
 	if err != nil {
-		sid, _ := NewV4()
+		sid, _ := uuid.NewV4()
 		cookie = &http.Cookie{
 			Name: "session",
 			Value: sid.String(),
@@ -80,7 +81,6 @@ func GetUser(w http.ResponseWriter, req *http.Request) database.User {
 func AlreadyLoggedIn(w http.ResponseWriter, req *http.Request) bool {
 	cookie, err := req.Cookie("session")
 	if err != nil {
-		fmt.Println(err)
 		return false
 	}
 

@@ -3,16 +3,12 @@ package accounts
 import (
 	"../database"
 	"../session"
+	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"time"
 )
 
 func LoginController(w http.ResponseWriter, req *http.Request) {
-	if session.AlreadyLoggedIn(w, req) {
-		http.Redirect(w, req,"/", http.StatusSeeOther)
-		return
-	}
-
 	if req.Method == http.MethodPost {
 		username := req.FormValue("username")
 		password := req.FormValue("password")
@@ -24,8 +20,8 @@ func LoginController(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		// TODO: Match Hashed Passwords
-		if string(user.Password) != password {
+		err := bcrypt.CompareHashAndPassword(user.Password, []byte(password))
+		if err != nil {
 			http.Error(w, "Username or password is incorrect", http.StatusBadRequest)
 			return
 		}
@@ -39,10 +35,6 @@ func LoginController(w http.ResponseWriter, req *http.Request) {
 }
 
 func SignUpController(w http.ResponseWriter, req *http.Request) {
-	if session.AlreadyLoggedIn(w, req) {
-		http.Redirect(w, req,"/", http.StatusSeeOther)
-		return
-	}
 
 	if req.Method == http.MethodPost {
 		username := req.FormValue("username")
@@ -56,8 +48,12 @@ func SignUpController(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		// TODO: Hash Password
-		hashedPassword := []byte(password)
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
+		if err != nil {
+			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			return
+		}
+
 		CreateUser(username, firstname, lastname, role, hashedPassword)
 
 		session.CreateSessionCookie(w, req, username)
@@ -69,11 +65,6 @@ func SignUpController(w http.ResponseWriter, req *http.Request) {
 }
 
 func LogoutController(w http.ResponseWriter, req *http.Request) {
-	if !session.AlreadyLoggedIn(w, req) {
-		http.Redirect(w, req,"/login", http.StatusSeeOther)
-		return
-	}
-
 	cookie, _ := req.Cookie("session")
 
 	// Delete session from db
@@ -91,16 +82,6 @@ func LogoutController(w http.ResponseWriter, req *http.Request) {
 }
 
 func DashboardController(w http.ResponseWriter, req *http.Request) {
-	if !session.AlreadyLoggedIn(w, req) {
-		http.Error(w, "/", http.StatusSeeOther)
-		return
-	}
-
 	user := session.GetUser(w, req)
-	if user.Role != "admin" {
-		http.Error(w, "Forbidden", http.StatusForbidden)
-		return
-	}
-
 	tpl.ExecuteTemplate(w, "dashboard.html", user)
 }
